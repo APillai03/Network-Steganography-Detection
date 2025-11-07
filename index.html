@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensemble Steganography Detection Architecture</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1400px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        /* Input Layer */
+        .layer {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 3px solid #e9ecef;
+            position: relative;
+        }
+        
+        .layer-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .layer-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .input-layer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+        
+        .input-layer .layer-title {
+            color: white;
+        }
+        
+        .input-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        /* Feature Extraction */
+        .feature-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .feature-path {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .path-header {
+            font-weight: bold;
+            font-size: 16px;
+            color: #495057;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .path-1 {
+            border-left: 4px solid #3498db;
+        }
+        
+        .path-2 {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .feature-details {
+            font-size: 13px;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        .feature-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        /* Arrow */
+        .arrow {
+            text-align: center;
+            font-size: 32px;
+            color: #95a5a6;
+            margin: -10px 0;
+        }
+        
+        /* Models Layer */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .model-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .model-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .bilstm-card .model-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .rf-card .model-icon {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        
+        .gb-card .model-icon {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .lr-card .model-icon {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        
+        .model-name {
+            font-weight: bold;
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .model-details {
+            font-size: 11px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+        
+        /* Ensemble Layer */
+        .ensemble-layer {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-color: #e74c3c;
+        }
+        
+        .ensemble-layer .layer-title {
+            color: white;
+        }
+        
+        .ensemble-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .weight-formula {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #e74c3c;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+        
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .weight-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        .weight-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Output Layer */
+        .output-layer {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+            border-color: #16a085;
+            text-align: center;
+        }
+        
+        .output-layer .layer-title {
+            color: white;
+            justify-content: center;
+        }
+        
+        .output-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            min-width: 300px;
+        }
+        
+        .prediction {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .probability {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #495057;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Ensemble Steganography Detection Architecture</h1>
+        <p class="subtitle">Combining Deep Learning with Traditional ML for Robust Covert Channel Detection</p>
+        
+        <div class="architecture">
+            <!-- Input Layer -->
+            <div class="layer input-layer">
+                <div class="layer-title">
+                    <div class="layer-icon" style="background: white; color: #667eea;">📊</div>
+                    <span>INPUT: PCAP Traffic Flow</span>
+                </div>
+                <div class="input-content">
+                    <strong>Network Packet Capture</strong><br>
+                    50 consecutive packets per flow × 13 features per packet<br>
+                    <em>Features: Packet Length, IP TTL, Flags, Ports, Window Size, Payload Entropy, Protocol Indicators</em>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Feature Extraction -->
+            <div class="layer">
+                <div class="layer-title">
+                    <div class="layer-icon" style="background: #3498db; color: white;">⚙️</div>
+                    <span>FEATURE EXTRACTION (Dual-Path)</span>
+                </div>
+                <div class="feature-split">
+                    <div class="feature-path path-1">
+                        <div class="path-header">🔵 Path 1: Sequence Features</div>
+                        <div class="feature-details">
+                            <strong>For BiLSTM Model</strong><br>
+                            Preserves temporal ordering and sequential dependencies
+                        </div>
+                        <div class="feature-box">
+                            Shape: (50, 13)<br>
+                            50 packets × 13 features<br>
+                            Captures: Timing patterns, packet ordering, flow dynamics
+                        </div>
+                    </div>
+                    
+                    <div class="feature-path path-2">
+                        <div class="path-header">🟢 Path 2: Statistical Features</div>
+                        <div class="feature-details">
+                            <strong>For ML Models</strong><br>
+                            Aggregates sequence into distributional statistics
+                        </div>
+                        <div class="feature-box">
+                            Shape: (65,)<br>
+                            13 features × 5 stats<br>
+                            Stats: Mean, Std, Min, Max, Median<br>
+                            Captures: Distributions, anomalies, variance
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Models Layer -->
+            <div class="layer">
+                <div class="layer-title">
+                    <div class="layer-icon" style="background: #3498db; color: white;">🤖</div>
+                    <span>PARALLEL MODEL TRAINING</span>
+                </div>
+                <div class="models-grid">
+                    <div class="model-card bilstm-card">
+                        <div class="model-icon">🔁</div>
+                        <div class="model-name">BiLSTM</div>
+                        <div class="model-details">
+                            3 Bidirectional LSTM layers (128→64→32 units)<br>
+                            Detects: Temporal patterns, timing channels, ISN sequences
+                        </div>
+                    </div>
+                    
+                    <div class="model-card rf-card">
+                        <div class="model-icon">🌳</div>
+                        <div class="model-name">Random Forest</div>
+                        <div class="model-details">
+                            200 trees, depth 20<br>
+                            Detects: Non-linear patterns, entropy anomalies, size distributions
+                        </div>
+                    </div>
+                    
+                    <div class="model-card gb-card">
+                        <div class="model-icon">📈</div>
+                        <div class="model-name">Gradient Boosting</div>
+                        <div class="model-details">
+                            100 estimators, depth 10<br>
+                            Detects: Subtle correlations, TTL manipulation, multi-feature anomalies
+                        </div>
+                    </div>
+                    
+                    <div class="model-card lr-card">
+                        <div class="model-icon">📊</div>
+                        <div class="model-name">Logistic Regression</div>
+                        <div class="model-details">
+                            L2 regularization<br>
+                            Detects: Linear separations, statistical outliers, baseline patterns
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Ensemble Layer -->
+            <div class="layer ensemble-layer">
+                <div class="layer-title">
+                    <div class="layer-icon" style="background: white; color: #e74c3c;">🎯</div>
+                    <span>ENSEMBLE FUSION (Weighted Average)</span>
+                </div>
+                <div class="ensemble-content">
+                    <div class="weight-formula">
+                        P<sub>ensemble</sub> = 0.25 × P<sub>BiLSTM</sub> + 0.25 × P<sub>RF</sub> + 0.25 × P<sub>GB</sub> + 0.25 × P<sub>LR</sub>
+                    </div>
+                    
+                    <div class="weights-grid">
+                        <div class="weight-item">
+                            <span class="weight-value">25%</span>
+                            BiLSTM<br>
+                            (Temporal Expert)
+                        </div>
+                        <div class="weight-item">
+                            <span class="weight-value">25%</span>
+                            Random Forest<br>
+                            (Statistical Expert)
+                        </div>
+                        <div class="weight-item">
+                            <span class="weight-value">25%</span>
+                            Gradient Boost<br>
+                            (Pattern Expert)
+                        </div>
+                        <div class="weight-item">
+                            <span class="weight-value">25%</span>
+                            Logistic Reg<br>
+                            (Linear Baseline)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Output Layer -->
+            <div class="layer output-layer">
+                <div class="layer-title">
+                    <div class="layer-icon" style="background: white; color: #16a085;">✓</div>
+                    <span>FINAL PREDICTION</span>
+                </div>
+                <div class="output-content">
+                    <div class="prediction">Binary Classification</div>
+                    <div class="probability">
+                        <strong>Output:</strong> Probability ∈ [0, 1]<br>
+                        Threshold @ 0.5<br>
+                        <strong>0 = Benign</strong> | <strong>1 = Steganography</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                <span>Input/Processing Layer</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db;"></div>
+                <span>Feature Extraction</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);"></div>
+                <span>Ensemble Fusion</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);"></div>
+                <span>Output Layer</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
